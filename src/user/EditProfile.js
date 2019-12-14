@@ -44,7 +44,9 @@ class EditProfile extends Component {
   isValid = () => {
     const { name, email, password, fileSize } = this.state;
     if (fileSize > 100000) {
-      this.setState({ error: "File size should be less than 100Kb" });
+      this.setState({
+        error: "FileSize of the photo is limited with 100Kb..."
+      });
       return false;
     }
     if (name.length === 0) {
@@ -69,9 +71,11 @@ class EditProfile extends Component {
   };
 
   handleChange = name => event => {
+    this.setState({ error: "" });
     const value = name === "photo" ? event.target.files[0] : event.target.value;
+    const fileSize = name === "photo" ? event.target.files[0].size : 0;
     this.userData.set(name, value);
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, fileSize });
   };
 
   clickSubmit = event => {
