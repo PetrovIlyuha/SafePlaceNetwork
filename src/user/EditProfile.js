@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
 import { read, update } from "./apiUser";
 import { Redirect } from "react-router-dom";
+import Spinner from "../shared/Spinner";
 
 class EditProfile extends Component {
   constructor() {
@@ -11,7 +12,10 @@ class EditProfile extends Component {
       name: "",
       email: "",
       password: "",
-      redirectToProfile: false
+      redirectToProfile: false,
+      error: "",
+      fileSize: 0,
+      loading: false
     };
   }
 
@@ -32,34 +36,73 @@ class EditProfile extends Component {
   };
 
   componentDidMount() {
+    this.userData = new FormData();
     const userId = this.props.match.params.userId;
     this.init(userId);
   }
 
+  isValid = () => {
+    const { name, email, password, fileSize } = this.state;
+    if (fileSize > 100000) {
+      this.setState({ error: "File size should be less than 100Kb" });
+      return false;
+    }
+    if (name.length === 0) {
+      this.setState({ error: "Name must contain something..." });
+      return false;
+    }
+    if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+      this.setState({ error: "Email must have appropriate format..." });
+      return false;
+    }
+    if (
+      (password.length >= 1 && password.length <= 5) ||
+      !/\d/.test(password)
+    ) {
+      this.setState({
+        error:
+          "Password must be at least 6 characters long and contain at least one digit..."
+      });
+      return false;
+    }
+    return true;
+  };
+
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    this.userData.set(name, value);
+    this.setState({ [name]: value });
   };
 
   clickSubmit = event => {
     event.preventDefault();
-    const { name, email, password } = this.state;
-    const user = {
-      name,
-      email,
-      password: password || undefined
-    };
-    const userId = this.props.match.params.userId;
-    const token = isAuthenticated().token;
-    update(userId, token, user).then(data => {
-      if (data.error) this.setState({ error: data.error });
-      else
-        this.setState({
-          redirectToProfile: true
-        });
-    });
+    this.setState({ loading: true });
+    if (this.isValid()) {
+      const userId = this.props.match.params.userId;
+      const token = isAuthenticated().token;
+      update(userId, token, this.userData).then(data => {
+        if (data.error) this.setState({ error: data.error });
+        else
+          this.setState({
+            redirectToProfile: true
+          });
+      });
+    }
   };
+
   signUpForm = (name, email, password) => (
     <form>
+      <div className="form-group">
+        <label htmlFor="photo" className="text-muted">
+          Profile Photo
+        </label>
+        <input
+          onChange={this.handleChange("photo")}
+          type="file"
+          accept="image/*"
+          className="form-control"
+        />
+      </div>
       <div className="form-group">
         <label htmlFor="name" className="text-muted">
           Name
@@ -100,7 +143,15 @@ class EditProfile extends Component {
   );
 
   render() {
-    const { id, name, email, password, redirectToProfile } = this.state;
+    const {
+      id,
+      name,
+      email,
+      password,
+      redirectToProfile,
+      error,
+      loading
+    } = this.state;
 
     if (redirectToProfile) {
       return <Redirect to={`/user/${id}`} />;
@@ -108,6 +159,13 @@ class EditProfile extends Component {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Edit Profile</h2>
+        {loading ? <Spinner /> : ""}
+        <div
+          className="alert alert-danger"
+          style={{ display: error ? "" : "none" }}
+        >
+          {error}
+        </div>
         {this.signUpForm(name, email, password)}
       </div>
     );
