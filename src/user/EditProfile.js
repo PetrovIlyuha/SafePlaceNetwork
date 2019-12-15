@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { isAuthenticated } from "../auth";
-import { read, update } from "./apiUser";
+import { read, update, updateUser } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import Spinner from "../shared/Spinner";
 import userAvatar from "../img/userAvatar.jpg";
 
-class EditProfile extends Component {
+class EditProfile extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -48,16 +48,23 @@ class EditProfile extends Component {
     const { name, email, password, fileSize } = this.state;
     if (fileSize > 100000000) {
       this.setState({
-        error: "FileSize of the photo is limited with 1Mb..."
+        error: "FileSize of the photo is limited with 1Mb...",
+        loading: false
       });
       return false;
     }
     if (name.length === 0) {
-      this.setState({ error: "Name must contain something..." });
+      this.setState({
+        error: "Name must contain something...",
+        loading: false
+      });
       return false;
     }
     if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
-      this.setState({ error: "Email must have appropriate format..." });
+      this.setState({
+        error: "Email must have appropriate format...",
+        loading: false
+      });
       return false;
     }
     if (
@@ -66,7 +73,8 @@ class EditProfile extends Component {
     ) {
       this.setState({
         error:
-          "Password must be at least 6 characters long and contain at least one digit..."
+          "Password must be at least 6 characters long and contain at least one digit...",
+        loading: false
       });
       return false;
     }
@@ -88,11 +96,15 @@ class EditProfile extends Component {
       const userId = this.props.match.params.userId;
       const token = isAuthenticated().token;
       update(userId, token, this.userData).then(data => {
-        if (data.error) this.setState({ error: data.error });
-        else
-          this.setState({
-            redirectToProfile: true
+        if (data.error) {
+          this.setState({ error: data.error });
+        } else {
+          updateUser(data, () => {
+            this.setState({
+              redirectToProfile: true
+            });
           });
+        }
       });
     }
   };
