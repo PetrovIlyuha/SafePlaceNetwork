@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth";
 import { read, update } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import Spinner from "../shared/Spinner";
+import userAvatar from "../img/userAvatar.jpg";
 
 class EditProfile extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class EditProfile extends Component {
       name: "",
       email: "",
       password: "",
+      about: "",
       redirectToProfile: false,
       error: "",
       fileSize: 0,
@@ -29,6 +31,7 @@ class EditProfile extends Component {
           id: data._id,
           name: data.name,
           email: data.email,
+          about: data.about,
           error: ""
         });
       }
@@ -43,9 +46,9 @@ class EditProfile extends Component {
 
   isValid = () => {
     const { name, email, password, fileSize } = this.state;
-    if (fileSize > 100000) {
+    if (fileSize > 100000000) {
       this.setState({
-        error: "FileSize of the photo is limited with 100Kb..."
+        error: "FileSize of the photo is limited with 1Mb..."
       });
       return false;
     }
@@ -94,7 +97,7 @@ class EditProfile extends Component {
     }
   };
 
-  signUpForm = (name, email, password) => (
+  signUpForm = (name, email, password, about) => (
     <form>
       <div className="form-group">
         <label htmlFor="photo" className="text-muted">
@@ -130,6 +133,17 @@ class EditProfile extends Component {
         />
       </div>
       <div className="form-group">
+        <label htmlFor="about" className="text-muted">
+          About Me
+        </label>
+        <textarea
+          onChange={this.handleChange("about")}
+          type="text"
+          className="form-control"
+          value={about}
+        />
+      </div>
+      <div className="form-group">
         <label htmlFor="password" className="text-muted">
           Password
         </label>
@@ -154,12 +168,19 @@ class EditProfile extends Component {
       password,
       redirectToProfile,
       error,
-      loading
+      loading,
+      about
     } = this.state;
 
     if (redirectToProfile) {
       return <Redirect to={`/user/${id}`} />;
     }
+
+    const photoUrl = id
+      ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${
+          new Date().getTime
+        }`
+      : userAvatar;
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Edit Profile</h2>
@@ -167,10 +188,17 @@ class EditProfile extends Component {
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}
+          className="img-thumbnail"
         >
           {error}
         </div>
-        {this.signUpForm(name, email, password)}
+        <img
+          src={photoUrl}
+          alt={name}
+          style={{ height: "200px", width: "auto" }}
+          onError={img => (img.target.src = `${userAvatar}`)}
+        />
+        {this.signUpForm(name, email, password, about)}
       </div>
     );
   }

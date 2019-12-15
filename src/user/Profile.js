@@ -39,6 +39,12 @@ class Profile extends Component {
 
   render() {
     const { redirectToSignin, user } = this.state;
+    const photoUrl = user._id
+      ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${
+          new Date().getTime
+        }`
+      : userAvatar;
+
     if (redirectToSignin) return <Redirect to="/signin" />;
     return (
       <div className="container" style={{ fontFamily: "Righteous" }}>
@@ -46,10 +52,10 @@ class Profile extends Component {
         <div className="row">
           <div className="col-md-6">
             <img
-              className="card-img-top"
-              src={userAvatar}
-              alt="User Profile"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              src={photoUrl}
+              alt={user.name}
+              style={{ height: "200px", width: "auto" }}
+              onError={img => (img.target.src = `${userAvatar}`)}
             />
           </div>
           <div className="col-md-6">
@@ -70,6 +76,13 @@ class Profile extends Component {
                 <DeleteUser userId={user._id} />
               </div>
             ) : null}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col md-12 mt-5 mb-5">
+            <hr />
+            <p className="lead">{user.about}</p>
+            <hr />
           </div>
         </div>
       </div>

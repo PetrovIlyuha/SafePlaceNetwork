@@ -26,10 +26,11 @@ class Users extends Component {
       {users.map((user, index) => (
         <div className="card col-md-4 mr-2 mt-2" key={index}>
           <img
-            className="card-img-top"
-            src={userAvatar}
-            alt="User Profile"
-            style={{ width: "100%", height: "60%", objectFit: "cover" }}
+            src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`}
+            alt={user.name}
+            onError={img => (img.target.src = `${userAvatar}`)}
+            style={{ height: "250px", width: "auto" }}
+            className="mt-2"
           />
           <div className="card-body">
             <h5 className="card-title">{user.name}</h5>
