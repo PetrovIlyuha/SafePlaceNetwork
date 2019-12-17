@@ -8,6 +8,8 @@ import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
 
 class Profile extends Component {
+  _isMounted = false;
+
   constructor() {
     super();
     this.state = {
@@ -52,6 +54,7 @@ class Profile extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     const userId = this.props.match.params.userId;
     this.init(userId);
   }

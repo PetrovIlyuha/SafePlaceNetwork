@@ -21,7 +21,7 @@ const Menu = ({ history }) => (
           style={{
             width: "60px",
             borderRadius: "20px",
-            marginRight: "calc(100vw - 700px)",
+            marginRight: "calc(100vw - 850px)",
             marginTop: "2px"
           }}
         />
@@ -67,12 +67,23 @@ const Menu = ({ history }) => (
           <li className="nav-item">
             <Link
               className="nav-link"
+              to={`/post/create`}
+              style={isActive(history, `/post/create`)}
+            >
+              Create Post
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <Link
+              className="nav-link"
               to={`/findpeople`}
               style={isActive(history, `/findpeople`)}
             >
               Find People
             </Link>
           </li>
+
           <li className="nav-item">
             <Link
               className="nav-link"
@@ -82,6 +93,7 @@ const Menu = ({ history }) => (
               {`${isAuthenticated().user.name}'s profile`}
             </Link>
           </li>
+
           <li className="nav-item">
             <a
               className="nav-link"
