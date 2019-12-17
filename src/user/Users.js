@@ -51,7 +51,7 @@ class Users extends Component {
     const { users } = this.state;
     return (
       <div className="container" style={{ fontFamily: "Righteous" }}>
-        <h2 className="mt-5 mb-5">Users</h2>
+        <h2 className="mb-5">Users</h2>
         {this.renderUsers(users)}
       </div>
     );

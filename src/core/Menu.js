@@ -21,7 +21,7 @@ const Menu = ({ history }) => (
           style={{
             width: "60px",
             borderRadius: "20px",
-            marginRight: "calc(100vw - 600px)",
+            marginRight: "calc(100vw - 700px)",
             marginTop: "2px"
           }}
         />
@@ -65,6 +65,24 @@ const Menu = ({ history }) => (
       {isAuthenticated() && (
         <>
           <li className="nav-item">
+            <Link
+              className="nav-link"
+              to={`/findpeople`}
+              style={isActive(history, `/findpeople`)}
+            >
+              Find People
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className="nav-link"
+              to={`/user/${isAuthenticated().user._id}`}
+              style={isActive(history, `/user/${isAuthenticated().user._id}`)}
+            >
+              {`${isAuthenticated().user.name}'s profile`}
+            </Link>
+          </li>
+          <li className="nav-item">
             <a
               className="nav-link"
               style={
@@ -75,15 +93,6 @@ const Menu = ({ history }) => (
             >
               Sign Out
             </a>
-          </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link"
-              to={`/user/${isAuthenticated().user._id}`}
-              style={isActive(history, `/user/${isAuthenticated().user._id}`)}
-            >
-              {`${isAuthenticated().user.name}'s profile`}
-            </Link>
           </li>
         </>
       )}

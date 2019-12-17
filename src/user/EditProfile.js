@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { isAuthenticated } from "../auth";
 import { read, update, updateUser } from "./apiUser";
 import { Redirect } from "react-router-dom";
-import Spinner from "../shared/Spinner";
+import SpinnerAudio from "../shared/SpinnerAudio";
 import userAvatar from "../img/userAvatar.jpg";
 
 class EditProfile extends PureComponent {
@@ -196,7 +196,7 @@ class EditProfile extends PureComponent {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Edit Profile</h2>
-        {loading ? <Spinner /> : ""}
+        {loading ? <SpinnerAudio /> : ""}
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}
