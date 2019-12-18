@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import userAvatar from "../img/userAvatar.jpg";
+import Spinner from "../shared/SpinnerCircles";
 
 export default class ProfileTabs extends Component {
   render() {
@@ -67,7 +68,23 @@ export default class ProfileTabs extends Component {
           <div className="col-md-4">
             <h3 className="text-primary">Posts</h3>
             <hr />
-            {JSON.stringify(posts)}
+            {!posts.length ? (
+              <Spinner />
+            ) : (
+              posts.map((post, index) => (
+                <div key={index}>
+                  <div className="row">
+                    <div>
+                      <Link to={`/post/${post._id}`}>
+                        <div>
+                          <p className="lead">{post.title}</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

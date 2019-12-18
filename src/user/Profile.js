@@ -93,15 +93,15 @@ class Profile extends Component {
       <div className="container" style={{ fontFamily: "Righteous" }}>
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <img
               src={photoUrl}
               alt={user.name}
-              style={{ height: "200px", width: "auto" }}
+              style={{ height: "200px", width: "auto", borderRadius: "20px" }}
               onError={img => (img.target.src = `${userAvatar}`)}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-8">
             <div className="lead mt-2">
               <p>Hello {user.name}</p>
               <p>Email: {user.email}</p>
@@ -110,6 +110,12 @@ class Profile extends Component {
             {isAuthenticated().user &&
             isAuthenticated().user._id === user._id ? (
               <div className="d-inline-block">
+                <Link
+                  className="btn btn-raised btn-dark mr-5"
+                  to={`/post/create`}
+                >
+                  Create Post
+                </Link>
                 <Link
                   className="btn btn-raised btn-success mr-5"
                   to={`/user/edit/${user._id}`}

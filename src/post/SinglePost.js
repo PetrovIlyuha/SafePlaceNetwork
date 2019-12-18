@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { singlePost } from "./apiPost";
+import { singlePost, deletePost } from "./apiPost";
 import defaultPostImage from "../img/defaultPostImage.jpg";
 import { Link } from "react-router-dom";
 import SpinnerCircles from "../shared/SpinnerCircles";
+import { isAuthenticated } from "../auth/index";
+import { Redirect } from "react-router-dom";
 
 export default class SinglePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: ""
+      post: "",
+      redirectToHome: false
     };
   }
 
@@ -22,6 +25,18 @@ export default class SinglePost extends Component {
       }
     });
   }
+
+  deletePost = () => {
+    const postId = this.props.match.params.postId;
+    const token = isAuthenticated().token;
+    deletePost(postId, token).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        this.setState({ redirectToHome: true });
+      }
+    });
+  };
 
   renderPost = post => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";
@@ -43,15 +58,34 @@ export default class SinglePost extends Component {
           Posted by <Link to={`${posterId}`}>{posterName}</Link> on{" "}
           {new Date(post.created).toDateString()}
         </p>
-        <Link to={"/"} className="btn btn-raised btn-primary btn-sm">
-          Back to Posts
-        </Link>
+        <div className="d-inline-block">
+          <Link to={"/"} className="btn btn-raised btn-primary btn-sm">
+            Back to Posts
+          </Link>
+          {isAuthenticated().user &&
+            isAuthenticated().user._id === post.postedBy._id && (
+              <>
+                <button className="btn btn-raised btn-dark btn-sm mr-5 ml-2">
+                  Update Post
+                </button>
+                <button
+                  onClick={this.deletePost}
+                  className="btn btn-raised btn-warning btn-sm mr-5"
+                >
+                  Delete Post
+                </button>
+              </>
+            )}
+        </div>
       </div>
     );
   };
 
   render() {
-    const { post } = this.state;
+    const { post, redirectToHome } = this.state;
+    if (redirectToHome) {
+      return <Redirect to={"/"} />;
+    }
     return (
       <div className="container mt-5 ml-5">
         <h2 className="display-2 ml-3" style={{ fontFamily: "Righteous" }}>
