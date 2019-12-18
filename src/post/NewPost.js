@@ -27,7 +27,7 @@ class NewPost extends PureComponent {
 
   isValid = () => {
     const { title, body, fileSize } = this.state;
-    if (fileSize > 100000) {
+    if (fileSize > 100000000) {
       this.setState({
         error: "FileSize of the photo is limited with 1Mb...",
         loading: false

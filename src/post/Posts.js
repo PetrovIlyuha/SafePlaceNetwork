@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { listPosts } from "./apiPost";
 import { Link } from "react-router-dom";
 import defaultPostImage from "../img/defaultPostImage.jpg";
-
+import SpinnerCircles from "../shared/SpinnerCircles";
 class Posts extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,6 @@ class Posts extends Component {
         console.log(data.error);
       } else {
         this.setState({ posts: data });
-        console.log(data);
       }
     });
   }
@@ -46,7 +45,7 @@ class Posts extends Component {
                   {new Date(post.created).toDateString()}
                 </p>
                 <Link
-                  to={`/posts/${post._id}`}
+                  to={`/post/${post._id}`}
                   className="btn btn-raised btn-sm btn-primary"
                 >
                   Read Post
@@ -63,7 +62,9 @@ class Posts extends Component {
     const { posts } = this.state;
     return (
       <div className="container" style={{ fontFamily: "Righteous" }}>
-        <h2 className="mb-5">Recent Posts</h2>
+        <h2 className="mb-5">
+          {!posts.length ? <SpinnerCircles /> : "Recent Posts"}
+        </h2>
         {this.renderPosts(posts)}
       </div>
     );
