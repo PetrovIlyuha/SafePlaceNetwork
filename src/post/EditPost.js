@@ -135,7 +135,11 @@ export default class EditPost extends Component {
   render() {
     const { id, title, body, redirectToProfile, loading, error } = this.state;
     if (redirectToProfile) {
-      return <Redirect to={`/user/${isAuthenticated().user._id}`} />;
+      return (
+        <Redirect
+          to={`/user/${isAuthenticated().user._id}?${new Date().getTime()}`}
+        />
+      );
     }
     return (
       <div className="container">

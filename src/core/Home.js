@@ -21,7 +21,7 @@ const Home = () => (
       />
       <h2 style={{ fontFamily: "bangee" }}>Your Place</h2>
     </div>
-    <div className="container">
+    <div>
       <Posts />
     </div>
   </div>

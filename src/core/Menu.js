@@ -3,6 +3,19 @@ import { Link, withRouter } from "react-router-dom";
 import SafePlaceLogo from "../img/logo192.png";
 import { isAuthenticated, signout } from "../auth";
 import NavbarWave from "../img/NavWave";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faJedi,
+  faHome,
+  faUsers,
+  faSignature,
+  faBlind,
+  faSignOutAlt,
+  faSignInAlt,
+  faUserPlus
+} from "@fortawesome/free-solid-svg-icons";
+
 const isActive = (history, path) => {
   if (history.location.pathname === path) return { color: "#a4fc9f" };
   else return { color: "#ffffff" };
@@ -15,19 +28,20 @@ const Menu = ({ history }) => (
       style={{ height: "65px", fontFamily: "Bungee Inline" }}
     >
       <li className="nav-item">
-        <img
-          src={SafePlaceLogo}
-          alt="Safe Place Social Network"
+        <FontAwesomeIcon
+          icon={faJedi}
           style={{
-            width: "60px",
-            borderRadius: "20px",
-            marginRight: "calc(100vw - 850px)",
-            marginTop: "2px"
+            float: "left",
+            color: "white",
+            fontSize: "65px",
+            padding: "17px 0 0 10px"
           }}
         />
       </li>
       <li className="nav-item">
         <Link to="/" className="nav-link" style={isActive(history, "/")}>
+          <FontAwesomeIcon icon={faHome} />
+          {` `}
           Home
         </Link>
       </li>
@@ -37,7 +51,20 @@ const Menu = ({ history }) => (
           className="nav-link"
           style={isActive(history, "/users")}
         >
+          <FontAwesomeIcon icon={faUsers} />
+          {` `}
           Users
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link
+          className="nav-link"
+          to={`/post/create`}
+          style={isActive(history, `/post/create`)}
+        >
+          <FontAwesomeIcon icon={faSignature} />
+          {` `}
+          Create Post
         </Link>
       </li>
       {!isAuthenticated() && (
@@ -48,6 +75,8 @@ const Menu = ({ history }) => (
               className="nav-link"
               style={isActive(history, "/signin")}
             >
+              <FontAwesomeIcon icon={faSignInAlt} />
+              {` `}
               Sing In
             </Link>
           </li>
@@ -57,6 +86,8 @@ const Menu = ({ history }) => (
               className="nav-link"
               style={isActive(history, "/signup")}
             >
+              <FontAwesomeIcon icon={faUserPlus} />
+              {` `}
               Sign Up
             </Link>
           </li>
@@ -67,19 +98,11 @@ const Menu = ({ history }) => (
           <li className="nav-item">
             <Link
               className="nav-link"
-              to={`/post/create`}
-              style={isActive(history, `/post/create`)}
-            >
-              Create Post
-            </Link>
-          </li>
-
-          <li className="nav-item">
-            <Link
-              className="nav-link"
               to={`/findpeople`}
               style={isActive(history, `/findpeople`)}
             >
+              <FontAwesomeIcon icon={faBlind} />
+              {` `}
               Find People
             </Link>
           </li>
@@ -103,6 +126,8 @@ const Menu = ({ history }) => (
               }
               onClick={() => signout(() => history.push("/"))}
             >
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              {` `}
               Sign Out
             </a>
           </li>

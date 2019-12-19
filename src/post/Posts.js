@@ -3,6 +3,9 @@ import { listPosts } from "./apiPost";
 import { Link } from "react-router-dom";
 import defaultPostImage from "../img/defaultPostImage.jpg";
 import SpinnerCircles from "../shared/SpinnerCircles";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookReader } from "@fortawesome/free-solid-svg-icons";
 class Posts extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +51,8 @@ class Posts extends Component {
                   to={`/post/${post._id}`}
                   className="btn btn-raised btn-sm btn-primary"
                 >
+                  <FontAwesomeIcon icon={faBookReader} />
+                  {` `}
                   Read Post
                 </Link>
               </div>
@@ -61,7 +66,10 @@ class Posts extends Component {
   render() {
     const { posts } = this.state;
     return (
-      <div className="container" style={{ fontFamily: "Righteous" }}>
+      <div
+        className="container-fluid ml-5 mr-5"
+        style={{ fontFamily: "Righteous" }}
+      >
         <h2 className="mb-5">
           {!posts.length ? <SpinnerCircles /> : "Recent Posts"}
         </h2>

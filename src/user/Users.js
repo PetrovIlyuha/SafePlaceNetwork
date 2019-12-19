@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { listUsers } from "./apiUser";
 import { Link } from "react-router-dom";
 import userAvatar from "../img/userAvatar.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faIdCardAlt } from "@fortawesome/free-solid-svg-icons";
 
 class Users extends Component {
   constructor(props) {
@@ -39,6 +41,8 @@ class Users extends Component {
               to={`/user/${user._id}`}
               className="btn btn-raised btn-small btn-primary"
             >
+              <FontAwesomeIcon icon={faIdCardAlt} />
+              {`  `}
               View Profile
             </Link>
           </div>

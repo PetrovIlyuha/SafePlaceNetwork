@@ -3,8 +3,9 @@ import { isAuthenticated } from "../auth";
 import { createPost } from "./apiPost";
 import { Redirect } from "react-router-dom";
 import SpinnerAudio from "../shared/SpinnerAudio";
-import userAvatar from "../img/userAvatar.jpg";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignature } from "@fortawesome/free-solid-svg-icons";
 class NewPost extends PureComponent {
   constructor() {
     super();
@@ -114,6 +115,8 @@ class NewPost extends PureComponent {
       </div>
 
       <button onClick={this.clickSubmit} className="btn btn-raised btn-primary">
+        <FontAwesomeIcon icon={faSignature} />
+        {` `}
         Create Post
       </button>
     </form>

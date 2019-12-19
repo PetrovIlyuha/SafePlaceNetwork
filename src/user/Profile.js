@@ -8,6 +8,12 @@ import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
 import { listByUser } from "../post/apiPost";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSignature,
+  faUsersCog,
+  faGrinTongueSquint
+} from "@fortawesome/free-solid-svg-icons";
 class Profile extends Component {
   _isMounted = false;
 
@@ -114,12 +120,16 @@ class Profile extends Component {
                   className="btn btn-raised btn-dark mr-5"
                   to={`/post/create`}
                 >
+                  <FontAwesomeIcon icon={faSignature} />
+                  {` `}
                   Create Post
                 </Link>
                 <Link
                   className="btn btn-raised btn-success mr-5"
                   to={`/user/edit/${user._id}`}
                 >
+                  <FontAwesomeIcon icon={faUsersCog} />
+                  {` `}
                   Edit Profile
                 </Link>
                 <DeleteUser userId={user._id} />

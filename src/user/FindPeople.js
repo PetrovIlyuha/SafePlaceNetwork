@@ -5,6 +5,9 @@ import userAvatar from "../img/userAvatar.jpg";
 import { isAuthenticated } from "../auth";
 import SpinnerCircles from "../shared/SpinnerCircles";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStreetView, faLaughWink } from "@fortawesome/free-solid-svg-icons";
+
 class FindPeople extends Component {
   _isMounted = false;
   constructor(props) {
@@ -66,6 +69,11 @@ class FindPeople extends Component {
               to={`/user/${user._id}`}
               className="btn btn-raised btn-sm btn-primary"
             >
+              <FontAwesomeIcon
+                icon={faStreetView}
+                style={{ fontSize: "20px" }}
+              />
+              {` `}
               View Profile
             </Link>
 
@@ -73,6 +81,8 @@ class FindPeople extends Component {
               onClick={() => this.clickFollow(user, index)}
               className="btn btn-raised btn-info float-right btn-sm"
             >
+              <FontAwesomeIcon icon={faLaughWink} />
+              {` `}
               Follow
             </button>
           </div>

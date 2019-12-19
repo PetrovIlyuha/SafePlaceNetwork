@@ -4,6 +4,9 @@ import { removeAccount } from "./apiUser";
 import { signout } from "../auth";
 import { Redirect } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGrinTongueSquint } from "@fortawesome/free-solid-svg-icons";
+
 class DeleteUser extends Component {
   state = {
     redirect: false
@@ -41,6 +44,8 @@ class DeleteUser extends Component {
         className="btn btn-raised btn-danger mr-5"
         onClick={this.deleteConfirmed}
       >
+        <FontAwesomeIcon icon={faGrinTongueSquint} />
+        {` `}
         Delete
       </button>
     );
