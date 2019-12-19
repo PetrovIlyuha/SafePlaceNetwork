@@ -38,6 +38,13 @@ export default class SinglePost extends Component {
     });
   };
 
+  deleteConfirmed = () => {
+    let answer = window.confirm("Are you sure you want to delete this Post?");
+    if (answer) {
+      this.deletePost();
+    }
+  };
+
   renderPost = post => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";
     const posterName = post.postedBy ? post.postedBy.name : "Unknown";
@@ -65,11 +72,14 @@ export default class SinglePost extends Component {
           {isAuthenticated().user &&
             isAuthenticated().user._id === post.postedBy._id && (
               <>
-                <button className="btn btn-raised btn-dark btn-sm mr-5 ml-2">
+                <Link
+                  to={`/post/edit/${post._id}`}
+                  className="btn btn-raised btn-dark btn-sm mr-5 ml-2"
+                >
                   Update Post
-                </button>
+                </Link>
                 <button
-                  onClick={this.deletePost}
+                  onClick={this.deleteConfirmed}
                   className="btn btn-raised btn-warning btn-sm mr-5"
                 >
                   Delete Post
@@ -88,7 +98,7 @@ export default class SinglePost extends Component {
     }
     return (
       <div className="container mt-5 ml-5">
-        <h2 className="display-2 ml-3" style={{ fontFamily: "Righteous" }}>
+        <h2 className="display-2 ml-3" style={{ fontFamily: "Poppins" }}>
           {post.title}
         </h2>
         {!post ? <SpinnerCircles /> : this.renderPost(post)}
